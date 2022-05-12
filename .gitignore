@@ -1,0 +1,12 @@
+
+wealth/node_modules/
+
+.idea/
+
+.vs/
+
+doc/api/package-lock.json
+
+backend/config.h
+
+backend/out/build/x64-Debug/
