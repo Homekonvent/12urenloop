@@ -10,3 +10,5 @@ doc/api/package-lock.json
 backend/config.h
 
 backend/out/build/x64-Debug/
+
+backend/node_modules/
