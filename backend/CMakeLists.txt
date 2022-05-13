@@ -11,3 +11,9 @@ set(BoostVersion "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR
 message(STATUS "Boost version: ${BoostVersion}")
 INCLUDE_DIRECTORIES( ${BOOST_INCLUDE_DIR} )
 TARGET_LINK_LIBRARIES( 12uren PUBLIC ${BOOST_LIBRARIES} -lboost_system -lpthread -lcrypto -lcrypt -lz)
+
+find_package (SQLite3)
+if (SQLITE3_FOUND)
+  include_directories(${SQLITE3_INCLUDE_DIRS})
+  target_link_libraries (12uren PUBLIC ${SQLITE3_LIBRARIES} -lsqlite3)
+endif (SQLITE3_FOUND)
