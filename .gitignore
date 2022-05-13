@@ -12,3 +12,5 @@ backend/config.h
 backend/out/build/x64-Debug/
 
 backend/node_modules/
+
+backend/data.db
