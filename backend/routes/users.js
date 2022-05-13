@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const crypt = require('sha512crypt-node');
+var sqlite3 = require('sqlite3');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
