@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
+const crypt = require('sha512crypt-node');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send(process.env.JWT_SECRET_KEY);
+    let hash = crypt.sha512crypt("pass","saltsalt");
+  res.send(hash);
 });
 
 router.post("/generateToken", (req, res) => {
