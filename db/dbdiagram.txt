@@ -1,0 +1,35 @@
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table users {
+  id int [pk, increment] // auto-increment
+  first_naam varchar
+  last_name timestamp
+  home int
+  admin boolean
+}
+
+Table home {
+  home int
+  profile_pic varchar
+  order_number int
+}
+
+Table run {
+  user_id int [pk]
+  inserted timestamp
+  has_run boolean
+  stopped timestamp
+}
+
+Table supporter {
+  user_id int [pk]
+  inserted timestamp
+  verified boolean
+}
+
+Table valid_codes {
+  hash varchar [pk]
+  inserted timestamp
+}

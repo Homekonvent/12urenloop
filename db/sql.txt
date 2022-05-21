@@ -1,0 +1,32 @@
+CREATE TABLE "users" (
+  "id" SERIAL PRIMARY KEY,
+  "first_naam" varchar,
+  "last_name" timestamp,
+  "home" int,
+  "admin" boolean
+);
+
+CREATE TABLE "home" (
+  "home" int,
+  "profile_pic" varchar,
+  "order_number" int
+);
+
+CREATE TABLE "run" (
+  "user_id" int PRIMARY KEY,
+  "inserted" timestamp,
+  "has_run" boolean,
+  "stopped" timestamp
+);
+
+CREATE TABLE "supporter" (
+  "user_id" int PRIMARY KEY,
+  "inserted" timestamp,
+  "verified" boolean
+);
+
+CREATE TABLE "valid_codes" (
+  "hash" varchar PRIMARY KEY,
+  "inserted" timestamp
+);
+s
