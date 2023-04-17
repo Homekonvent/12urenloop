@@ -2,34 +2,26 @@
 //// -- Tables and References
 
 // Creating tables
-Table users {
+Table runners {
   id int [pk, increment] // auto-increment
   first_naam varchar
   last_name timestamp
   home int
-  admin boolean
+  email varchar
+  verified_supporter int
 }
 
 Table home {
   home int
-  profile_pic varchar
+  schild varchar
   order_number int
 }
 
 Table run {
   user_id int [pk]
-  inserted timestamp
+  inserted float
+  started timestamp
   has_run boolean
   stopped timestamp
-}
-
-Table supporter {
-  user_id int [pk]
-  inserted timestamp
-  verified boolean
-}
-
-Table valid_codes {
-  hash varchar [pk]
-  inserted timestamp
+  home int
 }
