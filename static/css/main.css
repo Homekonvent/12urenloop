@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fontont/Poppins-Regular.woff2') format('woff2'),
+  url('../fontont/Poppins-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  background-color: #FFF4D9;
+  overflow: hidden;
+}
+
+#wave_5_ {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4800px;
+  overflow: hidden;
+  max-height: 270px;
+}
+
+#logo_holder {
+  position: relative;
+  width: 100%;
+  border-bottom: 3px solid white;
+}
+#logo_holder svg{
+  margin: 20px;
+  display: inline-block;
+  vertical-align: top;
+  height: 5vw;
+}
+
+#next{
+  font-family: Poppins, serif;
+  margin-left: calc( 20px  + 5vw );
+  margin-top: calc( 20px + 5vw );
+}

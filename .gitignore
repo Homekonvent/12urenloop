@@ -1,16 +1,6 @@
-
-wealth/node_modules/
-
-.idea/
-
-.vs/
-
-doc/api/package-lock.json
-
-backend/config.h
-
-backend/out/build/x64-Debug/
-
-backend/node_modules/
-
-backend/data.db
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+# Useful .gitignore templates: https://github.com/github/gitignore
+node_modules
+dist
+.cache
