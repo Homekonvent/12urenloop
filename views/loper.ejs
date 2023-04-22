@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <meta name="theme-color" content="#fafafa">
+    <style>
+        @media screen and (max-width: 1000px) and (orientation: portrait) {
+            #test {
+                display: block !important;
+                top: 50%;
+                position: fixed;
+                z-index: 999;
+                left: 50%;
+                translate: -50%;
+                background: white;
+                border: solid black 1px;
+                padding: 2%;
+                font-size: 2em;
+                font-family: Poppins-b, serif;
+                text-align: center;
+            }
+
+        }
+
+        #next_button h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50%;
+        }
+    </style>
+</head>
+
+<body>
+<div id="test" style="display: none">
+    <p>Rotate screen</p>
+</div>
+<div style="width: 100vw;text-align: center;height: calc( 40px + 20px );">
+    <h1 style="font-size: 40px;margin: 10px 0">Volgende loper:<span></span></h1>
+</div>
+<div style="height: calc( 100vh - 2em - 20px);">
+    <div style="width: 50%;height: 100%;display: inline-block;">
+        <div></div>
+    </div><!--
+    --><div id="next_button" style="width:50%;background-color: green;height: 100%;display: inline-block;position: relative">
+        <h1>Einde ronde, volgende loper</h1>
+    </div>
+</div>
+</body>
+<script>
+    function submit(e) {
+        e.preventDefault();
+        if (confirm("Gebruiker aanmaken?")) {
+            fetch("/run/", {credentials: "include", method: "POST"}).then((d) => d.json()).then(() => {
+                alert("Gebruiker aangemaakt")
+            })
+        }
+    }
+</script>
+</html>

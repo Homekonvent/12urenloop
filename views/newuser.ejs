@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html lang="">
 
 <head>
     <meta charset="utf-8">
@@ -20,34 +20,26 @@
 <body>
 
 <%- include('./partials/logo') %>
-<div id="buttons" style="display: none">
-    <a href="https://letmein.homekonvent.be/?callback=https://12ul.homekonvent.be/user/callback">
-        <button>Login in</button>
-    </a>
-    <button onclick="run_lap(event)">Reserveer een loopronde</button>
-</div>
-<div id="next">
-    <h1>Volgende lopers</h1>
-    <ol>
-    </ol>
-</div>
 
-<div id="most">
-    <h1>Meeste lopers & supporters</h1>
-</div>
-
-<div id="fast">
-    <h1>Snelste
-        lopers</h1>
-</div>
+<form style="width: 50%;text-align: left;position: absolute;top: 50%;left: 50%;translate: -50%;">
+    <label for="first_name">Voornaam:</label>
+    <input id="first_name" required type="text" />
+    <label for="last_name">Achternaam:</label><input id="last_name" required type="text" />
+    <label for="home">Home:</label>
+    <select>
+    </select>
+    <label for="email">Email:</label><input id="email" required type="text" />
+    <input id="email" required type="text" />
+    <button type="submit">Voeg loper toe.</button>
+</form>
 <%- include('./partials/footer') %>
 </body>
 <script>
-    function run_lap(e) {
-        e.target.disabled = true;
-        if (confirm("Zeker dat je een ronde wilt lopen?")) {
+    function submit(e) {
+        e.preventDefault();
+        if (confirm("Gebruiker aanmaken?")) {
             fetch("/run/", {credentials: "include", method: "POST"}).then((d) => d.json()).then(() => {
-                alert("Loopronde gereserveerd hou het dashboard of het dashboard in het oog.")
+                alert("Gebruiker aangemaakt")
             })
         }
     }
