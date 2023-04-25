@@ -15,15 +15,16 @@ const decodingJWT = (token) => {
 router.post("/manuel", async (req, res, next) => {
     let db_url = process.env.DB_URL || "data.db";
     try {
+        console.log(req.body);
         let userhome = req.body.home;
         let id = req.body.id
         let db = await aaSqlite.open(db_url);
-        let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run;`)[0];
+        let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run;`);
+        max = max[0];
         let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
         let index = homes.indexOf(max.home);
         let userindex = homes.indexOf(userhome);
-        console.log(index);
-        console.log(userindex);
+
         let neindex = 0;
         if (userindex > index) {
             neindex = userindex;
