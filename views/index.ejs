@@ -14,6 +14,15 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on( 'update-runners', function( data ) {
+            document.getElementById('runners').innerHTML = "";
+            for (let i of data){
+                document.getElementById('runners').innerHTML += `<li><p>${i.name}</p></li>`;
+            }
+        });
+    </script>
     <meta name="theme-color" content="#fafafa">
 </head>
 
@@ -23,7 +32,7 @@
 
 <div id="next">
     <h1>Volgende lopers</h1>
-    <ol>
+    <ol id="runners">
     </ol>
 </div>
 
@@ -37,14 +46,5 @@
 </div>
 <%- include('./partials/footer') %>
 </body>
-<script>
-    function run_lap(e) {
-        e.target.disabled = true;
-        if (confirm("Zeker dat je een ronde wilt lopen?")) {
-            fetch("/run/", {credentials: "include", method: "POST"}).then((d) => d.json()).then(() => {
-                alert("Loopronde gereserveerd hou het dashboard of het dashboard in het oog.")
-            })
-        }
-    }
-</script>
+
 </html>

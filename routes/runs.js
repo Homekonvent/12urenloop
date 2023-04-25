@@ -34,6 +34,8 @@ router.post("/manuel", async (req, res, next) => {
 
         await aaSqlite.push(db,`insert into run ("user_id","inserted","started","has_run","stopped","home") values (?,?,0,0,0,?);`,[id,neindex,userhome])
 
+        let runners = aaSqlite.all(db,`Select (first_name || " " || last_name) as name from run join runners on run.user_id=runners.id where run.has_run=0 order by inserted asc;`)
+        req.io.emit('update-runners', runners);
         await aaSqlite.close(db);
 
         res.send({success: true});
