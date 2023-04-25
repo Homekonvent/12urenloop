@@ -36,8 +36,6 @@
         <option>Vermeylen</option>
         <option>Confabula</option>
     </select><br/>
-    <label for="email">Email:</label>
-    <input id="email" required type="text"/><br/>
     <button type="submit" onclick="submit(event)">Voeg loper/supporter toe.</button>
 </div>
 <%- include('./partials/footer') %>
@@ -49,11 +47,10 @@
             let first = document.getElementById('first_name').value;
             let last = document.getElementById('last_name').value;
             let home = document.getElementById('home').value;
-            let email = document.getElementById('email').value;
             fetch("/user/", {
                 credentials: "include", method: "POST", headers: {
                     'Content-type': 'application/json; charset=UTF-8'
-                }, body: JSON.stringify({first_name: first, last_name: last, home: home, email: email})
+                }, body: JSON.stringify({first_name: first, last_name: last, home: home})
             }).then((d) => {
                 if (!d.ok) {
                     throw new Error(`Error! status: ${response.status}`);
