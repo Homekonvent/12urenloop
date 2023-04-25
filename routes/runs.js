@@ -15,8 +15,8 @@ const decodingJWT = (token) => {
 router.post("/manuel", async (req, res, next) => {
     let db_url = process.env.DB_URL || "data.db";
     try {
-
         let userhome = req.body.home;
+        let id = req.body.id
         let db = await aaSqlite.open(db_url);
         let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run;`)[0];
         let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
@@ -31,7 +31,7 @@ router.post("/manuel", async (req, res, next) => {
             neindex = userindex + homes.length;
         }
 
-        aaSqlite.push(db,"insert into run")
+        await aaSqlite.push(db,`insert into run ("user_id","inserted","started","has_run","stopped","home") values (?,?,0,0,0,?);`,[id,neindex,userhome])
 
         await aaSqlite.close(db);
 
