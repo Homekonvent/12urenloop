@@ -142,7 +142,7 @@ app.get("/admin/run", async function (req, res) {
 
     let db = await aaSqlite.open(db_url);
 
-    let runners = await aaSqlite.all(db, `select id, ( first_naam || last_name ) as name from runners;`);
+    let runners = await aaSqlite.all(db, `select id, ( first_naam || " " || last_name ) as name from runners;`);
 
     await aaSqlite.close(db);
     res.render("addrun", {runners:runners});

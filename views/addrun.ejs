@@ -23,9 +23,9 @@
 <div onsubmit="return submit(event)"
      style="width: 50%;text-align: left;position: absolute;top: 50%;left: 50%;translate: -50%;">
 
-    <label for="runner">Home:</label>
+    <label for="runner">lopers:</label>
     <select id="runner">
-        <% for(let i=0; i<runners.length; i++) {%>
+        <% for(let i=0; i< runners.length; i++) {%>
             <option value="<%= runners[i].id %>"><%= runners[i].name %></option>
         <% } %>
     </select><br/>
