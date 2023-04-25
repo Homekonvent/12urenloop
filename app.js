@@ -145,7 +145,7 @@ app.get("/admin/run", async function (req, res) {
     let runners = await aaSqlite.all(db, `select id, ( first_naam || last_name ) as name from runners;`);
 
     await aaSqlite.close(db);
-    res.render("loper", {runners:runners});
+    res.render("addrun", {runners:runners});
 });
 
 startDB()
