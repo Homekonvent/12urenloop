@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+<%- include('./partials/logo') %>
+
+<div onsubmit="return submit(event)"
+     style="width: 50%;text-align: left;position: absolute;top: 50%;left: 50%;translate: -50%;">
+
+    <label for="runner">Home:</label>
+    <select id="runner">
+        <% for(let i=0; i<runners.length; i++) {%>
+            <option value="<%= runners[i].id %>"><%= runners[i].name %></option>
+        <% } %>
+    </select><br/>
+    <label for="home">Home:</label>
+    <select id="home">
+        <option>Astrid</option>
+        <option>Boudewijn</option>
+        <option>Bertha</option>
+        <option>Mercator</option>
+        <option>Savania</option>
+        <option>Fabiola</option>
+        <option>Vermeylen</option>
+        <option>Confabula</option>
+    </select><br/>
+    <input type="submit" onclick="submit(event)">Voeg loper toe.</input>
+</div>
+<%- include('./partials/footer') %>
+</body>
+<script>
+    function submit(e) {
+        e.preventDefault();
+        if (confirm("Loper toevoegen?")) {
+            let id = document.getElementById('runner').value;
+            let home = document.getElementById('home').value;
+            fetch("/run/manuel", {
+                credentials: "include", method: "POST", headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }, body: JSON.stringify({id: id, home: home})
+            }).then((d) => {
+                if (!d.ok) {
+                    throw new Error(`Error! status: ${response.status}`);
+                }
+                return d.json();
+            }).then(() => {
+                alert("Loper toegevoegd")
+            })
+        }
+        return false;
+    }
+</script>
+</html>

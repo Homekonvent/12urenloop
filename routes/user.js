@@ -65,11 +65,10 @@ router.post("/", async (req, res, next) => {
                     let first_name = req.body.first_name;
                     let last_name = req.body.last_name;
                     let home = req.body.home;
-                    let mail = req.body.email;
 
                     let db = await aaSqlite.open(db_url);
 
-                    await aaSqlite.push(db, `insert into runners ("id" ,"first_naam","last_name","home","email","verified_supporter") values (?,?,?,?,?,?);`, [uuidv4(), first_name,last_name,home,mail,1]);
+                    await aaSqlite.push(db, `insert into runners ("id" ,"first_naam","last_name","home","verified_supporter") values (?,?,?,?,?);`, [uuidv4(), first_name,last_name,home,1]);
 
                     await aaSqlite.close(db);
 
