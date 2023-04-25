@@ -56,7 +56,7 @@
                 }, body: JSON.stringify({id: id, home: home})
             }).then((d) => {
                 if (!d.ok) {
-                    throw new Error(`Error! status: ${response.status}`);
+                    throw new Error(`Error! status: ${d.status}`);
                 }
                 return d.json();
             }).then(() => {

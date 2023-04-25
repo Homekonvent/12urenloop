@@ -53,7 +53,7 @@
                 }, body: JSON.stringify({first_name: first, last_name: last, home: home})
             }).then((d) => {
                 if (!d.ok) {
-                    throw new Error(`Error! status: ${response.status}`);
+                    throw new Error(`Error! status: ${d.status}`);
                 }
                 return d.json();
             }).then(() => {
