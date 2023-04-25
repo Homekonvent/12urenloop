@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const aaSqlite = require("../db_as");
+const { v4: uuidv4 } = require('uuid');
+const fetch = require('node-fetch');
 
 const decodingJWT = (token) => {
     if (token !== null || token) {
@@ -43,5 +45,43 @@ router.get("/callback", async (req, res, next) => {
         });
 });
 
+
+router.post("/", async (req, res, next) => {
+    console.log("start validating");
+    fetch('https://letmein.homekonvent.be/user/validate', {
+        method: 'GET',
+
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            cookie: 'JWT='+req.cookies.JWT,
+        },
+    }).then((response) => response.json())
+        .then(async (response) => {
+            console.log(response);
+            if (response.valid) {
+                let db_url = process.env.DB_URL || "data.db";
+                try {
+                    let decoded = decodingJWT(req.cookies.JWT);
+                    let first_name = req.body.first_name;
+                    let last_name = req.body.last_name;
+                    let home = req.body.home;
+                    let mail = req.body.email;
+
+                    let db = await aaSqlite.open(db_url);
+
+                    await aaSqlite.push(db, `insert into runners ("id" ,"first_naam","last_name","home","email","verified_supporter") values (?,?,?,?,?,?);`, [uuidv4(), first_name,last_name,home,mail,1]);
+
+                    await aaSqlite.close(db);
+
+                    res.send({success: true});
+                } catch (err) {
+                    console.log(err)
+                    next(err);
+                }
+            }else {
+                res.status(500).send({success: false, err: "not authenitcated"});
+            }
+        });
+});
 
 module.exports = router;

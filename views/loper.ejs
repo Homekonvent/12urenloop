@@ -16,6 +16,9 @@
     <script src="/socket.io/socket.io.js"></script>
     <meta name="theme-color" content="#fafafa">
     <style>
+        body {
+            overflow: hidden !important;
+        }
         @media screen and (max-width: 1000px) and (orientation: portrait) {
             #test {
                 display: block !important;
@@ -34,12 +37,19 @@
 
         }
 
-        #next_button h1 {
+        #next_button h1 , #skip_button h1 , #snooze_button h1 {
             position: absolute;
             top: 50%;
             left: 50%;
-            translate: -50%;
+            transform: translate(-50%,-50%);
+            font-family: Poppins-b, serif;
+            text-align: center;
         }
+
+        #skip_button h1 , #snooze_button h1 {
+            font-size: 0.8em;
+        }
+
     </style>
 </head>
 
@@ -52,7 +62,8 @@
 </div>
 <div style="height: calc( 100vh - 2em - 20px);">
     <div style="width: 50%;height: 100%;display: inline-block;">
-        <div></div>
+        <div id="snooze_button" style="width:100%;height: 50%;background: orange;position: relative"><h1>Loper op een later moment inplannen</h1></div>
+        <div id="skip_button" style="width:100%;height: 50%;background: red;position: relative"><h1>Loper overslaan</h1></div>
     </div><!--
     --><div id="next_button" style="width:50%;background-color: green;height: 100%;display: inline-block;position: relative">
         <h1>Einde ronde, volgende loper</h1>

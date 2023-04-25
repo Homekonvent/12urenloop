@@ -13,7 +13,6 @@
     <meta property="og:image" content="">
 
     <link rel="stylesheet" href="/css/main.css">
-    <script src="/socket.io/socket.io.js"></script>
     <meta name="theme-color" content="#fafafa">
 </head>
 
@@ -21,27 +20,50 @@
 
 <%- include('./partials/logo') %>
 
-<form style="width: 50%;text-align: left;position: absolute;top: 50%;left: 50%;translate: -50%;">
+<div onsubmit="return submit(event)"
+     style="width: 50%;text-align: left;position: absolute;top: 50%;left: 50%;translate: -50%;">
     <label for="first_name">Voornaam:</label>
-    <input id="first_name" required type="text" />
-    <label for="last_name">Achternaam:</label><input id="last_name" required type="text" />
+    <input id="first_name" required type="text"/><br/>
+    <label for="last_name">Achternaam:</label><input id="last_name" required type="text"/><br/>
     <label for="home">Home:</label>
-    <select>
-    </select>
-    <label for="email">Email:</label><input id="email" required type="text" />
-    <input id="email" required type="text" />
-    <button type="submit">Voeg loper toe.</button>
-</form>
+    <select id="home">
+        <option>Astrid</option>
+        <option>Boudewijn</option>
+        <option>Bertha</option>
+        <option>Mercator</option>
+        <option>Savania</option>
+        <option>Fabiola</option>
+        <option>Vermeylen</option>
+        <option>Confabula</option>
+    </select><br/>
+    <label for="email">Email:</label>
+    <input id="email" required type="text"/><br/>
+    <button type="submit" onclick="submit(event)">Voeg loper/supporter toe.</button>
+</div>
 <%- include('./partials/footer') %>
 </body>
 <script>
     function submit(e) {
         e.preventDefault();
         if (confirm("Gebruiker aanmaken?")) {
-            fetch("/run/", {credentials: "include", method: "POST"}).then((d) => d.json()).then(() => {
+            let first = document.getElementById('first_name').value;
+            let last = document.getElementById('last_name').value;
+            let home = document.getElementById('home').value;
+            let email = document.getElementById('email').value;
+            fetch("/user/", {
+                credentials: "include", method: "POST", headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }, body: JSON.stringify({first_name: first, last_name: last, home: home, email: email})
+            }).then((d) => {
+                if (!d.ok) {
+                    throw new Error(`Error! status: ${response.status}`);
+                }
+                return d.json();
+            }).then(() => {
                 alert("Gebruiker aangemaakt")
             })
         }
+        return false;
     }
 </script>
 </html>

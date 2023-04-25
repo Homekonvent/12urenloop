@@ -14,7 +14,8 @@ let aaSqlite = require("./db_as");
 dotenv.config();
 let port = 4600;
 
-let runRouter = require('./routes/run');
+let runRouter = require('./routes/runs');
+let userRouter = require('./routes/user');
 
 server.listen(port, () => {
     console.log(`Success! Your application is running on port ${port}.`);
@@ -75,10 +76,10 @@ let db_url = process.env.DB_URL || "data.db";
 const createTables = (newdb) =>
     newdb.exec(`
     CREATE TABLE "runners" (
-  "id" INT PRIMARY KEY,
+  "id" varchar PRIMARY KEY,
   "first_naam" varchar,
-  "last_name" timestamp,
-  "home" int,
+  "last_name" varchar,
+  "home" varchar,
   "email" varchar,
   "verified_supporter" int
 );
@@ -90,12 +91,12 @@ CREATE TABLE "home" (
 );
 
 CREATE TABLE "run" (
-  "user_id" int PRIMARY KEY,
+  "user_id" varchar PRIMARY KEY,
   "inserted" float,
   "started" timestamp,
   "has_run" boolean,
   "stopped" timestamp,
-  "home" int
+  "home" varchar
 );
     COMMIT;
 `, ()  => { });
@@ -104,7 +105,7 @@ CREATE TABLE "run" (
 function createDatabase() {
     let newdb = new sqlite3.Database(db_url, (err) => {
         if (err) {
-            console.log("Getting error " + err);
+            console.error("Getting error " + err);
         }
         createTables(newdb);
     });
@@ -114,13 +115,13 @@ function createDatabase() {
 const startDB = () => new sqlite3.Database(db_url, sqlite3.OPEN_READWRITE, (err) => {
     if (err && err.code === "SQLITE_CANTOPEN") {
         createDatabase();
-        return;
     } else if (err) {
-        console.log("Getting error " + err);
+        console.error("Getting error " + err);
     }
 });
 
 app.use('/run', runRouter);
+app.use('/user', userRouter);
 
 app.get("/", function (req, res) {
     res.render("index", {});
@@ -132,6 +133,11 @@ app.get("/admin", function (req, res) {
 
 app.get("/admin/new", function (req, res) {
     res.render("newuser", {});
+});
+
+app.get("/admin/run", function (req, res) {
+
+    res.render("loper", {});
 });
 
 startDB()
