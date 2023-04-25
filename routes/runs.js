@@ -15,7 +15,7 @@ const decodingJWT = (token) => {
 router.post("/manuel", async (req, res, next) => {
     let db_url = process.env.DB_URL || "data.db";
     try {
-        console.log(req.body);
+        console.log(req.json());
         let userhome = req.body.home;
         let id = req.body.id
         let db = await aaSqlite.open(db_url);
