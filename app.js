@@ -21,6 +21,7 @@ const {v4: uuidv4} = require("uuid");
 server.listen(port, () => {
     console.log(`Success! Your application is running on port ${port}.`);
 });
+
 io.on('connection', async function (socket) {
     console.log('a user has connected!');
     let db_url = process.env.DB_URL || "data.db";
@@ -28,9 +29,11 @@ io.on('connection', async function (socket) {
 
         let db = await aaSqlite.open(db_url);
 
-        let data = await aaSqlite.all(db, `select sum(amount) as amount , name from team left join "transaction" using ("id") group by id order by amount desc;`, []);
+        let runners = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, run.inserted from run join runners on run.user_id=runners.id where run.has_run=0 order by "inserted" asc;`);
+        let speed = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, (run.stopped - run.started ) as duration from run join runners on run.user_id=runners.id where run.has_run=1 and duration != 0  and duration > 0 order by duration asc limit 5;`,[])
+        socket.emit('update-speed', speed);
         await aaSqlite.close(db);
-        socket.emit('update-event', data);
+        socket.emit('update-runners', runners);
 
     } catch (err) {
         console.log(err);

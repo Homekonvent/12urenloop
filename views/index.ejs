@@ -16,10 +16,18 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+
         socket.on( 'update-runners', function( data ) {
             document.getElementById('runners').innerHTML = "";
             for (let i of data){
                 document.getElementById('runners').innerHTML += `<li><p>${i.name}</p></li>`;
+            }
+        });
+
+        socket.on( 'update-speed', function( data ) {
+            document.getElementById('speders').innerHTML = "";
+            for (let i of data) {
+                document.getElementById('speders').innerHTML += `<li><p>${i.name}: ${i.duration}</p></li>`;
             }
         });
     </script>
@@ -37,12 +45,14 @@
 </div>
 
 <div id="most">
-    <h1>Meeste lopers & supporters</h1>
+    <h1>Meeste rondes</h1>
 </div>
 
 <div id="fast">
     <h1>Snelste
         lopers</h1>
+    <ol id="speders">
+    </ol>
 </div>
 <%- include('./partials/footer') %>
 </body>

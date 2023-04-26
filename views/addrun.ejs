@@ -50,7 +50,7 @@
         if (confirm("Loper toevoegen?")) {
             let id = document.getElementById('runner').value;
             let home = document.getElementById('home').value;
-            fetch("/run/manuel/", {
+            fetch("/run/", {
                 credentials: "include", method: "POST", headers: {
                     'Content-type': 'application/json; charset=UTF-8'
                 }, body: JSON.stringify({id: id, home: home})

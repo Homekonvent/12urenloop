@@ -14,11 +14,27 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+
+        socket.on('update-runners', function (data) {
+            document.getElementById('runners').innerHTML = "";
+            for (let i in data) {
+                if (i == 0){
+                    document.getElementById('runners').innerHTML += `<li><p><stong>Aan het lopen:</stong> ${data[i].name}</p></li>`;
+                }else{
+                    document.getElementById('runners').innerHTML += `<li><p>${data[i].name}</p></li>`;
+                }
+
+            }
+        });
+    </script>
     <meta name="theme-color" content="#fafafa">
     <style>
         body {
             overflow: hidden !important;
         }
+
         @media screen and (max-width: 1000px) and (orientation: portrait) {
             #test {
                 display: block !important;
@@ -37,16 +53,16 @@
 
         }
 
-        #next_button h1 , #skip_button h1 , #snooze_button h1 {
+        #next_button h1, #skip_button h1, #snooze_button #runners {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             font-family: Poppins-b, serif;
             text-align: center;
         }
 
-        #skip_button h1 , #snooze_button h1 {
+        #skip_button h1, #snooze_button #runners {
             font-size: 0.8em;
         }
 
@@ -59,20 +75,42 @@
 </div>
 <div style="height: calc( 100vh );">
     <div style="width: 50%;height: 100%;display: inline-block;">
-        <div id="snooze_button" style="width:100%;height: 50%;background: orange;position: relative"><h1>Loper op een later moment inplannen</h1></div>
-        <div id="skip_button" style="width:100%;height: 50%;background: red;position: relative"><h1>Loper overslaan</h1></div>
+        <div id="snooze_button" style="width:100%;height: 50%;position: relative;">
+            <ol id="runners"></ol>
+            </div><div onclick="skip(event)" id="skip_button" style="width:100%;height: 50%;background: red;position: relative">
+            <h1>Loper overslaan</h1></div>
     </div><!--
-    --><div id="next_button" style="width:50%;background-color: green;height: 100%;display: inline-block;position: relative">
+    --><div id="next_button" onclick="next(event)"
+         style="width:50%;background-color: green;height: 100%;display: inline-block;position: relative">
         <h1>Einde ronde, volgende loper</h1>
     </div>
 </div>
 </body>
 <script>
-    function submit(e) {
+    function next(e) {
         e.preventDefault();
-        if (confirm("Gebruiker aanmaken?")) {
-            fetch("/run/", {credentials: "include", method: "POST"}).then((d) => d.json()).then(() => {
-                alert("Gebruiker aangemaakt")
+        if (confirm("Naar volgende loper?")) {
+            fetch("/run/next", {credentials: "include", method: "POST"}).then((d) => {
+                if (!d.ok) {
+                    throw new Error(`Error! status: ${d.status}`);
+                }
+                return d.json();
+            }).then(() => {
+                alert("volgende loper")
+            })
+        }
+    }
+
+    function skip(e) {
+        e.preventDefault();
+        if (confirm("Volgende loper overslaan?")) {
+            fetch("/run/skip", {credentials: "include", method: "POST"}).then((d) => {
+                if (!d.ok) {
+                    throw new Error(`Error! status: ${d.status}`);
+                }
+                return d.json();
+            }).then(() => {
+                alert("Volgende loper overgeslagen!")
             })
         }
     }
