@@ -19,8 +19,12 @@
 
         socket.on( 'update-runners', function( data ) {
             document.getElementById('runners').innerHTML = "";
-            for (let i of data){
-                document.getElementById('runners').innerHTML += `<li><p>${i.name}</p></li>`;
+            for (let i in data){
+                if (i ==  0) {
+                    document.getElementById('runners').innerHTML += `<li><p>Aan het lopen: ${data[i].name}</p></li>`;
+                }else {
+                    document.getElementById('runners').innerHTML += `<li><p>${data[i].name}</p></li>`;
+                }
             }
         });
 
