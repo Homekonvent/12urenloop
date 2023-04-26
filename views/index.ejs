@@ -24,10 +24,25 @@
             }
         });
 
+        socket.on( 'update-most', function( data ) {
+            document.getElementById('mostr').innerHTML = "";
+            for (let i of data){
+                document.getElementById('mostr').innerHTML += `<li><p>${i.home}: ${i.rounds} rondes.</p></li>`;
+            }
+        });
+
+        function str_pad_left(string, pad, length) {
+            return (new Array(length + 1).join(pad) + string).slice(-length);
+        }
+
         socket.on( 'update-speed', function( data ) {
             document.getElementById('speders').innerHTML = "";
             for (let i of data) {
-                document.getElementById('speders').innerHTML += `<li><p>${i.name}: ${i.duration}</p></li>`;
+                const minutes = Math.floor(i.duration / 60);
+
+                const seconds = i.duration - minutes * 60;
+
+                document.getElementById('speders').innerHTML += `<li><p>${i.name}: ${str_pad_left(minutes, '0', 2)}:${str_pad_left(seconds, '0', 2)}</p></li>`;
             }
         });
     </script>
@@ -46,6 +61,9 @@
 
 <div id="most">
     <h1>Meeste rondes</h1>
+    <ol id="mostr">
+
+    </ol>
 </div>
 
 <div id="fast">

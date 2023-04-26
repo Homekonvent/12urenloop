@@ -30,10 +30,14 @@ io.on('connection', async function (socket) {
         let db = await aaSqlite.open(db_url);
 
         let runners = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, run.inserted from run join runners on run.user_id=runners.id where run.has_run=0 order by "inserted" asc;`);
+        socket.emit('update-runners', runners);
         let speed = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, (run.stopped - run.started ) as duration from run join runners on run.user_id=runners.id where run.has_run=1 and duration != 0  and duration > 0 order by duration asc limit 5;`,[])
         socket.emit('update-speed', speed);
+        let most = await aaSqlite.all(db, `select home, count(*) as rounds from run where run.has_run=1 group by home order by rounds desc limit 5;`,[]);
+        socket.emit('update-most', most);
+
         await aaSqlite.close(db);
-        socket.emit('update-runners', runners);
+
 
     } catch (err) {
         console.log(err);

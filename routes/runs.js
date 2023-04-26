@@ -53,8 +53,13 @@ router.post("/", async (req, res, next) => {
 
         let runners = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, run.inserted from run join runners on run.user_id=runners.id where run.has_run=0 order by "inserted" asc;`,[])
         req.io.emit('update-runners', runners);
+
         let speed = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, (run.stopped - run.started ) as duration from run join runners on run.user_id=runners.id where run.has_run=1 and duration != 0  and duration > 0 order by duration asc limit 5;`,[])
         req.io.emit('update-speed', speed);
+
+        let most = await aaSqlite.all(db, `select home, count(*) as rounds from run where run.has_run=1 group by home order by rounds desc limit 5;`,[]);
+        req.io.emit('update-most', most);
+
         await aaSqlite.close(db);
 
         res.send({success: true});
@@ -98,8 +103,10 @@ router.post("/next", async (req, res, next) => {
         let speed = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, (run.stopped - run.started ) as duration from run join runners on run.user_id=runners.id where run.has_run=1 and duration != 0  and duration > 0 order by duration asc limit 5;`,[])
         req.io.emit('update-speed', speed);
 
+        let most = await aaSqlite.all(db, `select home, count(*) as rounds from run where run.has_run=1 group by home order by rounds desc limit 5;`,[]);
+        req.io.emit('update-most', most);
+
         await aaSqlite.close(db);
-        //req.io.emit('update-event', data);
 
         res.send({success: true});
     } catch (err) {
@@ -144,6 +151,9 @@ router.post("/skip", async (req, res, next) => {
 
         let speed = await aaSqlite.all(db,`select (runners.first_naam || " " || runners.last_name) as name, (run.stopped - run.started ) as duration from run join runners on run.user_id=runners.id where run.has_run=1 and duration != 0  and duration > 0 order by duration asc limit 5;`,[])
         req.io.emit('update-speed', speed);
+
+        let most = await aaSqlite.all(db, `select home, count(*) as rounds from run where run.has_run=1 group by home order by rounds desc limit 5;`,[]);
+        req.io.emit('update-most', most);
 
         await aaSqlite.close(db);
 
