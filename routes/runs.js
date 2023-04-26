@@ -31,11 +31,12 @@ router.post("/", async (req, res, next) => {
                     let db = await aaSqlite.open(db_url);
                     let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run where home = ? and has_run=0;`, [userhome]);
                     max = max[0];
-                    let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
-                    let index = homes.indexOf(max.home);
-                    let userindex = homes.indexOf(userhome);
+                    neindex = max.maximum +1;
+                    //let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
+                    //let index = homes.indexOf(max.home);
+                    //let userindex = homes.indexOf(userhome);
 
-                    let neindex = 0;
+                    /*let neindex = 0;
                     if (max.maximum) {
                         neindex = max.maximum;
                     } else {
@@ -49,7 +50,7 @@ router.post("/", async (req, res, next) => {
                     } else {
                         neindex += userindex + homes.length + 1;
                     }
-
+*/
                     await aaSqlite.push(db, `insert into run ("user_id","inserted","started","has_run","stopped","home") values (?,?,0,0,0,?);`, [id, neindex, userhome])
 
                     let runners = await aaSqlite.all(db, `select (runners.first_naam || " " || runners.last_name) as name, run.inserted from run join runners on run.user_id=runners.id where run.has_run=0 order by "inserted" asc;`, [])
