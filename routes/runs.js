@@ -29,7 +29,7 @@ router.post("/", async (req, res, next) => {
                     let userhome = req.body.home;
                     let id = req.body.id
                     let db = await aaSqlite.open(db_url);
-                    let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run where has_run=0;`, [userhome]);
+                    let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run where has_run=0;`, []);
                     max = max[0];
                     neindex = max.maximum +1;
                     //let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
