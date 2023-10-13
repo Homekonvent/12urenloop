@@ -136,6 +136,10 @@ app.get("/", function (req, res) {
     res.render("index", {});
 });
 
+app.get("/wachtrij", function (req, res) {
+    res.render("wachtrij", {});
+});
+
 app.get("/admin", function (req, res) {
     res.render("loper", {});
 });

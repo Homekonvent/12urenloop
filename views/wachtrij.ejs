@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on( 'update-runners', function( data ) {
+            document.getElementById('runners').innerHTML = "";
+            for (let i in data){
+                if (i ==  0) {
+                    document.getElementById('runners').innerHTML += `<li><p>Aan het lopen: ${data[i].name}</p></li>`;
+                }else {
+                    document.getElementById('runners').innerHTML += `<li><p>${data[i].name}</p></li>`;
+                }
+            }
+        });
+
+    </script>
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+<%- include('./partials/logo') %>
+
+<div id="next-full-width">
+    <h1>Volgende lopers</h1>
+    <ol id="runners">
+    </ol>
+</div>
+
+<%- include('./partials/footer') %>
+</body>
+
+</html>
