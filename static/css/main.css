@@ -70,6 +70,14 @@ body {
   color: #1B365F;
 }
 
+#next-full-width {
+  width: calc( 100% - 40px );
+  margin: 20px;
+  display: inline-block;
+  vertical-align: top;
+  color: #1B365F;
+}
+
 #next ol, #fast ol, #most ol {
   background-image: linear-gradient(180deg,#000000 0%,rgba(0,0,0,0));
   -webkit-background-clip: text;
@@ -81,7 +89,14 @@ body {
   color: inherit;
 }
 
-#next ol li p, #fast ol li p {
+#next-full-width ol {
+  font-size: 1.5em;
+  text-transform: capitalize;
+  font-family: Poppins-m, serif;
+  color: inherit;
+}
+
+#next ol li p, #fast ol li p, #next-full-width ol li p {
   margin: 0;
   text-transform: capitalize;
   font-family: Poppins-m, serif;
@@ -100,7 +115,7 @@ body {
 
 @media only screen and (max-width: 600px) {
   /* For mobile: */
-  #most , #next, #fast {
+  #most , #next, #fast, #next-full-width {
     width: calc( 100% - 20px );
     margin: 20px;
   }
@@ -137,7 +152,7 @@ body {
 
 @media only screen and (max-width: 1000px) {
   /* For tablets: */
-  #most , #next, #fast {
+  #most , #next, #fast, #next-full-width {
     width: calc( 100% - 20px );
     margin: 20px;
   }

@@ -150,6 +150,12 @@ app.get("/", function (req, res) {
     res.render("index", {});
 });
 
+
+// function to render an overview of runners.
+app.get("/wachtrij", function (req, res) {
+    res.render("wachtrij", {});
+});
+
 // function to render an admin page where runners can be marked as runned or skipped , uses the ejs file views/admin_dashboard.ejs
 // this is the main dashboard
 app.get("/admin", function (req, res) {
