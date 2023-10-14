@@ -3,6 +3,7 @@ const router = express.Router();
 const aaSqlite = require("../db_as");
 const fetch = require('node-fetch');
 
+// function to decode a jwt (json web token) token.
 const decodingJWT = (token) => {
     if (token !== null || token) {
         const base64String = token.split(".")[1];
@@ -11,6 +12,7 @@ const decodingJWT = (token) => {
     return null;
 }
 
+// route that handles route /run/ with POST request. This adds a given runner to the queue
 router.post("/", async (req, res, next) => {
     fetch('https://letmein.homekonvent.be/user/validate', {
         method: 'GET',
@@ -28,14 +30,16 @@ router.post("/", async (req, res, next) => {
                     let userhome = req.body.home;
                     let id = req.body.id
                     let db = await aaSqlite.open(db_url);
-                    let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run where has_run=0;`, []);
+                    // selecteer de laatste toegevoegde loper in de wachtrij
+                    let max = await aaSqlite.all(db, `select max(inserted) as maximum, home from run where has_run=0 limit 1;`, []);
                     max = max[0];
-                    neindex = max.maximum +1;
-                    //let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
-                    //let index = homes.indexOf(max.home);
-                    //let userindex = homes.indexOf(userhome);
 
-                    /*let neindex = 0;
+                    // neindex = max.maximum +1;
+                    let homes = ["Astrid", "Boudewijn", "Bertha", "Mercator", "Savania", "Fabiola", "Vermeylen", "Confabula"]
+                    let index = homes.indexOf(max.home);
+                    let userindex = homes.indexOf(userhome);
+
+                    let neindex = 0;
                     if (max.maximum) {
                         neindex = max.maximum;
                     } else {
@@ -49,7 +53,7 @@ router.post("/", async (req, res, next) => {
                     } else {
                         neindex += userindex + homes.length + 1;
                     }
-*/
+
                     await aaSqlite.push(db, `insert into run ("user_id","inserted","started","has_run","stopped","home") values (?,?,0,0,0,?);`, [id, neindex, userhome])
 
                     let runners = await aaSqlite.all(db, `select (runners.first_naam || " " || runners.last_name) as name, run.inserted from run join runners on run.user_id=runners.id where run.has_run=0 order by "inserted" asc;`, [])
@@ -75,6 +79,7 @@ router.post("/", async (req, res, next) => {
         });
 });
 
+// route that handles route /run/next with POST request. This removes the first runner from the queue and notes the times.
 router.post("/next", async (req, res, next) => {
     fetch('https://letmein.homekonvent.be/user/validate', {
         method: 'GET',
@@ -122,6 +127,8 @@ router.post("/next", async (req, res, next) => {
         });
 });
 
+// route that handles route /run/skip with POST request.
+// This removes the first runner from the queue AND skips the second runner from the queue and notes the times.
 router.post("/skip", async (req, res, next) => {
     fetch('https://letmein.homekonvent.be/user/validate', {
         method: 'GET',
