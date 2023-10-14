@@ -25,3 +25,6 @@ Table run {
   stopped timestamp
   home int
 }
+
+Ref: home.home < run.home
+Ref: runners.home < run.home

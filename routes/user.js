@@ -4,14 +4,8 @@ const aaSqlite = require("../db_as");
 const { v4: uuidv4 } = require('uuid');
 const fetch = require('node-fetch');
 
-const decodingJWT = (token) => {
-    if (token !== null || token) {
-        const base64String = token.split(".")[1];
-        return JSON.parse(Buffer.from(base64String, "base64").toString("ascii"));
-    }
-    return null;
-}
 
+// route that handles route /user/ with POST request. This registers a given user to the system.
 router.post("/", async (req, res, next) => {
     fetch('https://letmein.homekonvent.be/user/validate', {
         method: 'GET',
@@ -24,7 +18,6 @@ router.post("/", async (req, res, next) => {
             if (response.valid) {
                 let db_url = process.env.DB_URL || "data.db";
                 try {
-                    let decoded = decodingJWT(req.cookies.JWT);
                     let first_name = req.body.first_name;
                     let last_name = req.body.last_name;
                     let home = req.body.home;
