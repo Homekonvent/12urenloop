@@ -8,7 +8,6 @@ exports.open = function (DBSOURCE, enableFK) {
                     if (err) reject("AA-SQLite3Open error: " + err.message);
                     else {
                         db.run("PRAGMA foreign_keys=ON");
-                        // console.log("AA-SQLite3:", fk);
                         resolve(db);
                     }
                 }
@@ -100,7 +99,7 @@ exports.all = function (db, query, params) {
     });
 };
 
-// each row returned one by one 
+// each row returned one by one
 exports.each = function (db,query, params, action) {
     return new Promise(function (resolve, reject) {
         db.serialize(function () {
